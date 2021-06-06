@@ -2,8 +2,31 @@
 #include<math.h>
 
 long double torad(long double degree);
+double distance(long double lat1, long double long1, long double lat2, long double long2);
+
 
 long double torad(long double degree) {
     long double rad = degree / (180 / (22 / 7));
     return rad;
 }
+
+// (latdeg1,longdeg1) for the first point and (latdeg2,longdeg2) for the second point
+
+double distance(long double latdeg1, long double longdeg1, long double latdeg2, long double longdeg2) {
+
+    // lat and long in radians
+    long double lat1 = torad(latdeg1);
+    long double long1 = torad(longdeg1);
+    long double lat2 = torad(latdeg2);
+    long double long2 = torad(longdeg2);
+
+    // calculating the distance 
+    long double latdiff = lat2 - lat1;
+    long double longdiff = long2 - long1;
+    double dis_part1 = (pow(sin(latdiff / 2), 2)) + (pow(sin(longdiff / 2), 2) * cos(lat1) * cos(lat2));
+    double radius = 6371;      // radius of the earth in km
+    double distance = 2 * radius * asin(sqrt(dis_part1)) * 1000;  // distance in m
+    return distance;
+}
+
+
