@@ -2,11 +2,11 @@
 #include "\tm4c123gh6pm.h"
 
 void port_init(void);
-void Total_distance(void);
+void distance(void);
 int main(void) {
 	
 	port_init();
-	Total_distance();
+	distance();
 }
 
 void port_init (void)
@@ -24,13 +24,13 @@ GPIO_PORTF_PCTL_R &=~0x000000F0;
 GPIO_PORTF_DATA_R &=~0x02;
 }
 
-void Total_distance(void)
+void distance(void)
 {	
 	
 	
-int Total_distance=110;    //testing the led by a value 
+int distance=110;    //testing the led by a value 
 	
-	if(Total_distance<100)
+	if(distance<100)
 		GPIO_PORTF_DATA_R &=~ 0x02;
   else
 		GPIO_PORTF_DATA_R|=0x02;
