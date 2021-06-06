@@ -1,1 +1,12 @@
 
+#include "D:\MarMar\Engineering\2nd CSE\2nd Semester\Introduction to Embedded Systems\Project\files\tm4c123gh6pm.h" // Device header
+int main(){
+LCD_init();
+ while(1)
+ {
+LCD_Cmd(0x01);
+LCD_Cmd(0x80);
+delay_milli(500);
+LCD_Data('T');
+delay_milli(1);
+LCD_Data('E');
