@@ -1,4 +1,3 @@
-
 #include "tm4c123gh6pm.h" // Device header
 #include <stdio.h>
 #include<math.h>
@@ -11,25 +10,28 @@ int main(){
     double latdeg2 = 53.31861111111111;
     double longdeg2 = -1.6997222222222223;
     double dis;
+    dis = distance(latdeg1, longdeg1, latdeg2, longdeg2);
+    printf("the distance is %f in m\n", dis);
 
 // this function used to test LCD display
 LCD_init();
  while(1)
  {
-LCD_Cmd(0x01);
-LCD_Cmd(0x80);
-delay_milli(500);
-LCD_Data('T');
-delay_milli(1);
-LCD_Data('E');
-delay_milli(1);
-LCD_Data('A');
-delay_milli(1);
-LCD_Data('M');
-delay_milli(1);
-LCD_Data('-');
-delay_milli(1);
-SendNumbers();
-delay_milli(500);
+    LCD_Cmd(0x01);
+    LCD_Cmd(0x80);
+    delay_milli(500);
+    LCD_Data('T');
+    delay_milli(1);
+    LCD_Data('E');
+    delay_milli(1);
+    LCD_Data('A');
+    delay_milli(1);
+    LCD_Data('M');
+    delay_milli(1);
+    LCD_Data('-');
+    delay_milli(1);
+    SendNumbers();
+    delay_milli(500);
 }
+return 0;
 }
