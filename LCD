@@ -1,1 +1,41 @@
+#include "D:\MarMar\Engineering\2nd CSE\2nd Semester\Introduction to Embedded Systems\Project\files\tm4c123gh6pm.h" // Device header
+void delay_milli(int n);
+void delay_micro(int n);
+void LCD_init(void);
+void LCD_Cmd(unsigned char command);
+void LCD_Data(unsigned char data);
+void SendNumbers (void);
+int main(){
+LCD_init();
+ while(1)
+ {
+LCD_Cmd(0x01);
+LCD_Cmd(0x80);
+delay_milli(500);
+LCD_Data('T');
+delay_milli(1);
+LCD_Data('E');
+delay_milli(1);
+LCD_Data('A');
+delay_milli(1);
+LCD_Data('M');
+delay_milli(1);
+LCD_Data('-');
+delay_milli(1);
+SendNumbers();
+delay_milli(500);
+}
+}
+void LCD_init(void){
+SYSCTL_RCGCGPIO_R  |= 0x01; //PORTA clock
+SYSCTL_RCGCGPIO_R  |= 0x02;
+GPIO_PORTA_DIR_R |=0xE0; //PORTA controls RS,E and R/W
+GPIO_PORTA_DEN_R |=0xE0;
+GPIO_PORTB_DIR_R |=0xFF; //PORTB D0-D7
+GPIO_PORTB_DEN_R|=0xFF; //PORTB D0-D7
+LCD_Cmd(0x38); //8-bits,2 display lines, 5x7 font
+LCD_Cmd(0x06); //increments automatically
+LCD_Cmd(0x0F); //Turn on display
+LCD_Cmd(0x01); //clear display
 
+}
