@@ -71,6 +71,9 @@ for(j=0;j<3;j++)
 
 void SendNumbers (void) {
 int num[2] = {2,6};
+
+// this arrray will contain the distance sent by the gps in secondmilestone
+
 unsigned char letters[2];
 int i;
 for (i = 0 ; i < 2 ; i++)
