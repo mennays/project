@@ -1,17 +1,16 @@
-#include <stdint.h>
-#include "\tm4c123gh6pm.h"
+
 
 void port_init(void);
-void distance(void);
+void led_out(void);
 int main(void) {
 	
 	port_init();
-	distance();
+	led_out();
+	
 }
-
 void port_init (void)
 {
-	// led
+	
 SYSCTL_RCGCGPIO_R |=0x20;
 while ((SYSCTL_PRGPIO_R&0x20)==0){};
 GPIO_PORTF_LOCK_R = 0x4C4F434B;
@@ -23,14 +22,15 @@ GPIO_PORTF_AFSEL_R &=~0X02;
 GPIO_PORTF_PCTL_R &=~0x000000F0;
 GPIO_PORTF_DATA_R &=~0x02;
 }
-
-void distance(void)
+	
+	
+void led_out(void)
 {	
 	
 	
-int distance=110;    //testing the led by a value 
+int x =distance();
 	
-	if(distance<100)
+	if(x<100)
 		GPIO_PORTF_DATA_R &=~ 0x02;
   else
 		GPIO_PORTF_DATA_R|=0x02;
