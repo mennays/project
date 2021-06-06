@@ -1,1 +1,9 @@
+#include <stdio.h>
+#include<math.h>
 
+long double torad(long double degree);
+
+long double torad(long double degree) {
+    long double rad = degree / (180 / (22 / 7));
+    return rad;
+}
