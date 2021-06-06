@@ -1,4 +1,4 @@
-
+// this function used to test LCD display
 #include "D:\MarMar\Engineering\2nd CSE\2nd Semester\Introduction to Embedded Systems\Project\files\tm4c123gh6pm.h" // Device header
 int main(){
 LCD_init();
@@ -10,3 +10,14 @@ delay_milli(500);
 LCD_Data('T');
 delay_milli(1);
 LCD_Data('E');
+delay_milli(1);
+LCD_Data('A');
+delay_milli(1);
+LCD_Data('M');
+delay_milli(1);
+LCD_Data('-');
+delay_milli(1);
+SendNumbers();
+delay_milli(500);
+}
+}
