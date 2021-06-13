@@ -1,20 +1,32 @@
 #include "tm4c123gh6pm.h" // Device header
 #include <stdio.h>
+#include "stdint.h"
+#include <stdlib.h>
+#include <string.h>
 #include<math.h>
 
 int main(){
 
-//Dummy data used to test distance calculations function
-    double latdeg1 = 53.32055555555556;  
-    double longdeg1 = -1.7297222222222221;
-    double latdeg2 = 53.31861111111111;
-    double longdeg2 = -1.6997222222222223;
-    double dis;
-    dis = distance(latdeg1, longdeg1, latdeg2, longdeg2);
-    printf("the distance is %f in m\n", dis);
+int totalDistance = 0;
+    double latdeg1 = 0;
+    double longdeg1 = 0;
 
-// this function used to test LCD display
-LCD_init();
+    char line[200];
+    char lat[15];
+    char lon[15];
+    int firstIndex;
+    int lastIndex;
+    int latFirstInd, latLastInd, longFirstInd, longLastInd;
+    int z = 0;
+    int r;
+    double latval, longval;
+    char msg[7] = "$GPRMC"; //--------
+  UART1_Init();
+  port_init ();
+  LCD_init();
+  int x;
+  int y;
+  
  while(1)
  {
     LCD_Cmd(0x01);
