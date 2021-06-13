@@ -27,23 +27,115 @@ int totalDistance = 0;
   int x;
   int y;
   
- while(1)
- {
-    LCD_Cmd(0x01);
-    LCD_Cmd(0x80);
-    delay_milli(500);
-    LCD_Data('T');
-    delay_milli(1);
-    LCD_Data('E');
-    delay_milli(1);
-    LCD_Data('A');
-    delay_milli(1);
-    LCD_Data('M');
-    delay_milli(1);
-    LCD_Data('-');
-    delay_milli(1);
-    SendNumbers();
-    delay_milli(500);
-}
-return 0;
+
+while (totalDistance <= 100) {
+     
+      for (x = 0; x < 650; x++) {
+        data[x] = UART1_read();
+      }
+            for(y = 0; y<645; y++) {
+                        if (data[y] == msg[0] && data[y+1] == msg[1] && data[y+2] == msg[2] && data[y+3] == msg[3] && data[y+4] == msg[4] && data[y+5] == msg[5]) {
+                            firstIndex = y;
+                            break;
+                        }
+                    }
+                    for (y = (firstIndex+1); y<645; y++) {
+                        if (data[y]=='$') {
+                            lastIndex = (y-1);
+                            break;
+                        }
+                    }
+                    z = firstIndex;
+                    for (x = 0; x < (lastIndex - firstIndex +1); x++) {
+                        line[x] = data[z];
+                        z++;
+                    }
+
+                    //--------------------
+                    int s;
+                        for (s = 0; s < (lastIndex - firstIndex + 1); s++) { 
+                            if (line[s] == 'A' || line[s] == 'V') {
+                                latFirstInd = s + 3;
+                                break;
+                            }
+                        }
+                        for (s = 0; s < (lastIndex - firstIndex + 1); s++) { 
+                            if (line[s] == 'N' || line[s] == 'S') {
+                                longFirstInd = s + 3;
+                                latLastInd = s - 3;
+                                break;
+                            }
+                        }
+                        for (s = 0; s < (lastIndex - firstIndex + 1); s++) { 
+                            if (line[s] == 'E' || line[s] == 'W') {
+                                longLastInd = s - 3;
+                                break;
+                            }
+                        }
+                        int lt = 0;
+                        for (s = latFirstInd; s < latLastInd + 1; s++) {
+                            lat[lt] = line[s];
+                            lt++;
+                        }
+
+                        int lg = 0;
+                        for (s = longFirstInd; s < longLastInd + 1; s++) {
+                            lon[lg] = line[s];
+                            lg++;
+                        }
+                        latval = atof(lat);
+                        longval = atof(lon);
+
+                        //-----COORDINATES CONVERSION--------
+                        double lat=latval;
+                        double longi=longval;
+                        int dd_lat,dd_longi;
+                        double  mm_lat, total_lat, mm_longi, total_longi;
+                        dd_lat = (lat / 100);
+                        mm_lat = lat - (dd_lat* 100);
+                        mm_lat = mm_lat / 60;
+                        total_lat = dd_lat + mm_lat;
+                        dd_longi = (longi / 100);
+                        mm_longi = longi - (dd_longi * 100);
+                        mm_longi = mm_longi / 60;
+                        total_longi = dd_longi + mm_longi;
+                       
+                        //-------DISTANCE----------
+
+                        if (latdeg1 == 0 && longdeg1 == 0) {
+                            latdeg1 = total_lat;
+                            longdeg1 = total_longi;
+                        }
+
+
+                        double latdeg2 = total_lat;       //gps reading
+                        double longdeg2 = total_longi;   //gps reading
+                        double dis;
+                        dis = distance(latdeg1, longdeg1, latdeg2, longdeg2);
+                        totalDistance += dis;
+                        latdeg1 = latdeg2;
+                        longdeg1 = longdeg2;
+                        //-------------------------
+
+                        //-----LCD-----------
+                              LCD_Cmd(0x01);
+                              LCD_Cmd(0x80);
+                              delay_milli(500);
+                              LCD_Data('D');
+                              delay_milli(1);
+                              LCD_Data('I');
+                              delay_milli(1);
+                              LCD_Data('S');
+                              delay_milli(1);
+                              LCD_Data('=');
+                              delay_milli(1);
+                              SendNumbers(totalDistance);
+                              delay_milli(500);
+                              //-------------------
+  }
+
+  //----------LED----------
+
+  REDLED(totalDistance);
+
 }
