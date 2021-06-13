@@ -4,7 +4,7 @@ void delay_micro(int n);
 void LCD_init(void);
 void LCD_Cmd(unsigned char command);
 void LCD_Data(unsigned char data);
-void SendNumbers (void);
+void SendNumbers (double v);
 int main(){
 LCD_init();
  while(1)
@@ -69,17 +69,41 @@ for(j=0;j<3;j++)
 {}
 }
 
-void SendNumbers (void) {
-int num[2] = {2,6};
+void SendNumbers (double v) {
+    unsigned char letters[5];
+        int number = (int)v;
+            /* count number of digits */
+            int c = 3; /* digit position */
+            int n = number;
 
-// this arrray will contain the distance sent by the gps in secondmilestone
+            /*while (n != 0)
+            {
+                n /= 10;
+                c++;
+            }*/
 
-unsigned char letters[2];
-int i;
-for (i = 0 ; i < 2 ; i++)
-{
-    letters[i] = num[i] + '0';
-      LCD_Data(letters[i]);
-      delay_milli(1);
-}
+            int numberArray[3];
+            int num[3];
+
+            c = 0;
+            n = number;
+
+            /* extract each digit */
+            while (n != 0)
+            {
+                numberArray[c] = n % 10;
+                n /= 10;
+                c++;
+            }
+            int i;
+            for (i = 0; i < 3; i++) {
+                num[i] = numberArray[2 - i];
+            }
+            int j;
+              for (j = 0; j <3; j++) {
+                  letters[j] = num[j] + '0';
+                  LCD_Data(letters[j]);
+                  delay_milli(1);
+              }
+
 }
